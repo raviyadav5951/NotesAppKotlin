@@ -11,10 +11,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".navigation.NavigationActivity"
-            android:label="@string/title_activity_navigation">
+        <activity android:name=".create.CreateActivity"/>
+        <activity
+            android:name=".navigation.NavigationActivity"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>

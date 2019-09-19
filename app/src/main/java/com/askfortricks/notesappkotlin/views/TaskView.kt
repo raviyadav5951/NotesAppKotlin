@@ -35,6 +35,9 @@ class TaskView @JvmOverloads constructor(
                     }
                 }
             }
+            todoContainer.addView(todoView)
+
+
         }
     }
 

@@ -1,6 +1,7 @@
 package com.askfortricks.notesappkotlin.tasks
 
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,8 +15,19 @@ import kotlinx.android.synthetic.main.fragment_task_list.*
 
 class TaskListFragment : Fragment() {
 
+    lateinit var touchActionDelegate: TouchActionDelegate
+
     companion object {
         fun newInstance() = TaskListFragment()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        context?.let { context ->
+            if (context is TouchActionDelegate) {
+            touchActionDelegate=context
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,17 +50,24 @@ class TaskListFragment : Fragment() {
                 Task(
                     "Test one", mutableListOf(
                         Todo("testing One"),
-                        Todo("testing One One",true)
+                        Todo("testing One One", true)
                     )
                 ),
-                Task("Test two",
+                Task(
+                    "Test two",
                     mutableListOf(
-                        Todo("testing two",true),
+                        Todo("testing two", true),
                         Todo("testing two two")
-                    ))
+                    )
+                )
             )
-        )
+        ,touchActionDelegate)
         recyclerView.adapter = adapter
+    }
+
+
+    interface TouchActionDelegate {
+        fun onAddButtonClicked(value:String)
     }
 
 }

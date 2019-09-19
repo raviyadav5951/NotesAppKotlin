@@ -15,7 +15,7 @@ class TodoView @JvmOverloads constructor(
     ConstraintLayout(context, attrs, defStyleAttr) {
 
 
-    fun initView(todo: Todo,callback:((Boolean)->Unit)?=null) {
+    fun initView(todo: Todo,callback:(()->Unit)?=null) {
 
         descriptionView.text = todo.description
         completeCheckBox.isChecked = todo.isComplete
@@ -28,10 +28,13 @@ class TodoView @JvmOverloads constructor(
 
     }
 
-    private fun setUpCheckedStateListener(todo:Todo,callback:((Boolean)->Unit)?=null) {
+    /**
+     * We have passed a function as a parameter which is invoked on each time checkbox is check/uncheck
+     */
+    private fun setUpCheckedStateListener(todo:Todo,callback:(()->Unit)?=null) {
         completeCheckBox.setOnCheckedChangeListener { _, isChecked ->
             todo.isComplete=isChecked
-            callback?.invoke(isChecked) //invoke the function on check/uncheck
+            callback?.invoke() //invoke the function on check/uncheck
             if (isChecked) {
                 createStrikeThrough()
             } else {
