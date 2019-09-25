@@ -7,14 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.askfortricks.notesappkotlin.R
-import com.askfortricks.notesappkotlin.models.Task
-import com.askfortricks.notesappkotlin.models.Todo
 import kotlinx.android.synthetic.main.fragment_task_list.*
 
 class TaskListFragment : Fragment() {
 
+    lateinit var taskViewModel: TaskViewModel
     lateinit var touchActionDelegate: TouchActionDelegate
 
     companion object {
@@ -25,14 +25,11 @@ class TaskListFragment : Fragment() {
         super.onAttach(context)
         context?.let { context ->
             if (context is TouchActionDelegate) {
-            touchActionDelegate=context
+                touchActionDelegate = context
             }
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,30 +41,21 @@ class TaskListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        bindViewModel()
         recyclerView.layoutManager = LinearLayoutManager(context)
         val adapter = TaskAdapter(
-            mutableListOf(
-                Task(
-                    "Test one", mutableListOf(
-                        Todo("testing One"),
-                        Todo("testing One One", true)
-                    )
-                ),
-                Task(
-                    "Test two",
-                    mutableListOf(
-                        Todo("testing two", true),
-                        Todo("testing two two")
-                    )
-                )
-            )
-        ,touchActionDelegate)
+            taskViewModel.getFakeData()
+            , touchActionDelegate
+        )
         recyclerView.adapter = adapter
     }
 
+    private fun bindViewModel() {
+        taskViewModel = ViewModelProviders.of(this).get(TaskViewModel::class.java)
+    }
 
     interface TouchActionDelegate {
-        fun onAddButtonClicked(value:String)
+        fun onAddButtonClicked(value: String)
     }
 
 }

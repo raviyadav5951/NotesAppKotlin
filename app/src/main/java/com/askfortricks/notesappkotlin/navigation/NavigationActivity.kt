@@ -2,6 +2,7 @@ package com.askfortricks.notesappkotlin.navigation
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.askfortricks.notesappkotlin.R
@@ -22,6 +23,7 @@ class NavigationActivity : AppCompatActivity(), TaskListFragment.TouchActionDele
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_navigation)
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         val navView = findViewById<BottomNavigationView>(R.id.navigationView)
         replaceFragment(TaskListFragment.newInstance())
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
