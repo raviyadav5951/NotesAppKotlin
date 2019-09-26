@@ -12,6 +12,12 @@ abstract class BaseRecyclerAdapter<T:Any>(
         const val TYPE_INFO = 1
     }
 
+    fun updateList(list:List<T>){
+        masterList.clear()
+        masterList.addAll(list)
+        notifyDataSetChanged()
+    }
+
     override fun getItemCount() = masterList.size+1
 
     override fun getItemViewType(position: Int): Int = if (position == 0) {

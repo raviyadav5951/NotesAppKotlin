@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.askfortricks.notesappkotlin.R
@@ -16,6 +17,7 @@ class TaskListFragment : Fragment() {
 
     lateinit var taskViewModel: TaskViewModel
     lateinit var touchActionDelegate: TouchActionDelegate
+    lateinit var adapter : TaskAdapter
 
     companion object {
         fun newInstance() = TaskListFragment()
@@ -41,17 +43,20 @@ class TaskListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bindViewModel()
         recyclerView.layoutManager = LinearLayoutManager(context)
-        val adapter = TaskAdapter(
-            taskViewModel.getFakeData()
-            , touchActionDelegate
+        adapter = TaskAdapter(
+            touchActionDelegate = touchActionDelegate
         )
         recyclerView.adapter = adapter
+        bindViewModel()
     }
 
+    //Step 3 : create observer
     private fun bindViewModel() {
         taskViewModel = ViewModelProviders.of(this).get(TaskViewModel::class.java)
+        taskViewModel.taskListLiveData.observe(this, Observer{
+            tasklist->adapter.updateList(tasklist)
+        })
     }
 
     interface TouchActionDelegate {

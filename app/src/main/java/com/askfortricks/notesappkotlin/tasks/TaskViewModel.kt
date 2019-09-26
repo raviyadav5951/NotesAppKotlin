@@ -1,12 +1,27 @@
 package com.askfortricks.notesappkotlin.tasks
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.askfortricks.notesappkotlin.models.Task
 import com.askfortricks.notesappkotlin.models.Todo
 
-class TaskViewModel: ViewModel() {
+class TaskViewModel : ViewModel() {
 
-    fun getFakeData():MutableList<Task> = mutableListOf(
+    //step 1
+    private val _taskListLiveData: MutableLiveData<MutableList<Task>> = MutableLiveData()
+
+    //its not mutable that's why we are accessing it from frag.
+
+    val taskListLiveData: LiveData<MutableList<Task>> = _taskListLiveData
+
+    //Step2 :init will be callled just after the constreuctor
+    init {
+        //post value async performs operation
+        _taskListLiveData.postValue(getFakeData())
+    }
+
+    fun getFakeData(): MutableList<Task> = mutableListOf(
         Task(
             "Test one", mutableListOf(
                 Todo("testing One"),
