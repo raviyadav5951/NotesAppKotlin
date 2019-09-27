@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.askfortricks.notesappkotlin.models.Task
 import com.askfortricks.notesappkotlin.models.Todo
 
-class TaskViewModel : ViewModel() {
+class TaskViewModel : ViewModel(),TaskListViewContract {
 
     //step 1
     private val _taskListLiveData: MutableLiveData<MutableList<Task>> = MutableLiveData()
@@ -43,4 +43,9 @@ class TaskViewModel : ViewModel() {
             )
         )
     )
+
+    override fun onToDoCompleted(taskIndex: Int, todoIndex: Int, isCompleted: Boolean) {
+        _taskListLiveData.value?.get(taskIndex)?.todos?.get(todoIndex)?.isComplete=isCompleted
+    }
+
 }

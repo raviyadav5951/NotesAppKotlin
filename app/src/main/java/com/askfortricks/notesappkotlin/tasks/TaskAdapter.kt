@@ -16,7 +16,8 @@ import kotlinx.android.synthetic.main.view_add_button.view.*
 //Created mutable list of task list
 class TaskAdapter(
     taskList: MutableList<Task> = mutableListOf(),
-    val touchActionDelegate: TaskListFragment.TouchActionDelegate
+    val touchActionDelegate: TaskListFragment.TouchActionDelegate,
+    val dataActionDelegate: TaskListViewContract
 ) :
     BaseRecyclerAdapter<Task>(taskList) {
 
@@ -55,7 +56,6 @@ class TaskAdapter(
             }
         }
     }
-
 
 
 }

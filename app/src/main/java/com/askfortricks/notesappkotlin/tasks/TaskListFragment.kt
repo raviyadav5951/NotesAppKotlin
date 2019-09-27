@@ -18,6 +18,7 @@ class TaskListFragment : Fragment() {
     lateinit var taskViewModel: TaskViewModel
     lateinit var touchActionDelegate: TouchActionDelegate
     lateinit var adapter : TaskAdapter
+    lateinit var contentView : TaskListView
 
     companion object {
         fun newInstance() = TaskListFragment()
@@ -38,24 +39,26 @@ class TaskListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_task_list, container, false)
+        return inflater.inflate(R.layout.fragment_task_list, container, false).apply {
+            contentView=this as TaskListView
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        adapter = TaskAdapter(
-            touchActionDelegate = touchActionDelegate
-        )
-        recyclerView.adapter = adapter
+        setContentView()
         bindViewModel()
+    }
+
+    private fun setContentView() {
+        contentView.initView(touchActionDelegate,taskViewModel)
     }
 
     //Step 3 : create observer
     private fun bindViewModel() {
         taskViewModel = ViewModelProviders.of(this).get(TaskViewModel::class.java)
         taskViewModel.taskListLiveData.observe(this, Observer{
-            tasklist->adapter.updateList(tasklist)
+            tasklist->contentView.updateList(tasklist)
         })
     }
 
