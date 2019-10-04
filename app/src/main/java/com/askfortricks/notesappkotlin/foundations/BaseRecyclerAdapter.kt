@@ -29,16 +29,16 @@ abstract class BaseRecyclerAdapter<T:Any>(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if(holder is AddButtonViewHolder)
         {
-            holder.onBind(Unit)
+            holder.onBind(Unit, position)
         }
         else{
-            (holder as BaseViewHolder<T>).onBind(masterList[position - 1])
+            (holder as BaseViewHolder<T>).onBind(masterList[position - 1],position-1)
 
         }
     }
 
     abstract class BaseViewHolder<E>(val view: View) : RecyclerView.ViewHolder(view) {
-        abstract fun onBind(data: E)
+        abstract fun onBind(data: E, listIndex: Int)
     }
 
     abstract class AddButtonViewHolder(view: View): BaseViewHolder<Unit>(view)

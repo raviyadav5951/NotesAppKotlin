@@ -39,13 +39,13 @@ class NotesAdapter(
 
 
     class ViewHolder(view: View) : BaseViewHolder<Note>(view) {
-        override fun onBind(data: Note) {
+        override fun onBind(data: Note, position: Int) {
             (view as NoteView).initView(data)
         }
     }
 
     inner class AddButtonViewHolder(view: View) : BaseRecyclerAdapter.AddButtonViewHolder(view) {
-        override fun onBind(data: Unit) {
+        override fun onBind(data: Unit, position: Int) {
             view.buttonText.text = view.context.getString(R.string.add_button_task)
             view.buttonText.setOnClickListener {
                 touchActionDelegate.onAddButtonClicked(NavigationActivity.FRAG_VALUE_NOTES)

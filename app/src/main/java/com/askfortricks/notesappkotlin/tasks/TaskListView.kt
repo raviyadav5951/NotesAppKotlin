@@ -13,7 +13,7 @@ class TaskListView @JvmOverloads constructor(
     defStyleAttr: Int = 1
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
-    lateinit var adapter: TaskAdapter
+    private lateinit var adapter: TaskAdapter
     private lateinit var touchActionDelegate: TaskListFragment.TouchActionDelegate
     private lateinit var dataActionDelegate: TaskListViewContract
 
@@ -23,11 +23,11 @@ class TaskListView @JvmOverloads constructor(
         daDelegate: TaskListViewContract
     ) {
 
-        setDelegate(taDelegate, daDelegate)
+        setDelegates(taDelegate, daDelegate)
         setUpView()
     }
 
-    private fun setDelegate(
+    private fun setDelegates(
         taDelegate: TaskListFragment.TouchActionDelegate,
         daDelegate: TaskListViewContract
     ) {
@@ -38,7 +38,8 @@ class TaskListView @JvmOverloads constructor(
     private fun setUpView() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         adapter = TaskAdapter(
-            touchActionDelegate = touchActionDelegate
+            touchActionDelegate = touchActionDelegate,
+            dataActionDelegate = dataActionDelegate
         )
         recyclerView.adapter = adapter
     }

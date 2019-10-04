@@ -9,16 +9,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.askfortricks.notesappkotlin.R
-import kotlinx.android.synthetic.main.fragment_task_list.*
 
 class TaskListFragment : Fragment() {
 
     lateinit var taskViewModel: TaskViewModel
     lateinit var touchActionDelegate: TouchActionDelegate
-    lateinit var adapter : TaskAdapter
-    lateinit var contentView : TaskListView
+    lateinit var contentView: TaskListView
 
     companion object {
         fun newInstance() = TaskListFragment()
@@ -40,7 +37,7 @@ class TaskListFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_task_list, container, false).apply {
-            contentView=this as TaskListView
+            contentView = this as TaskListView
         }
     }
 
@@ -51,14 +48,14 @@ class TaskListFragment : Fragment() {
     }
 
     private fun setContentView() {
-        contentView.initView(touchActionDelegate,taskViewModel)
+        contentView.initView(touchActionDelegate, taskViewModel)
     }
 
     //Step 3 : create observer
     private fun bindViewModel() {
         taskViewModel = ViewModelProviders.of(this).get(TaskViewModel::class.java)
-        taskViewModel.taskListLiveData.observe(this, Observer{
-            tasklist->contentView.updateList(tasklist)
+        taskViewModel.taskListLiveData.observe(this, Observer { tasklist ->
+            contentView.updateList(tasklist)
         })
     }
 
