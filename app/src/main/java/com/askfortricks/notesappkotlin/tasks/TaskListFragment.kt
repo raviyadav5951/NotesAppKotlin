@@ -23,7 +23,7 @@ class TaskListFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        context?.let { context ->
+        context.let { context ->
             if (context is TouchActionDelegate) {
                 touchActionDelegate = context
             }
@@ -43,8 +43,8 @@ class TaskListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setContentView()
         bindViewModel()
+        setContentView()
     }
 
     private fun setContentView() {

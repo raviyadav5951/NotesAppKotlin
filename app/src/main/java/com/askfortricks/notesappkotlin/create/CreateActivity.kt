@@ -1,9 +1,7 @@
 package com.askfortricks.notesappkotlin.create
 
-import androidx.appcompat.app.AppCompatActivity
-
 import android.os.Bundle
-
+import androidx.appcompat.app.AppCompatActivity
 import com.askfortricks.notesappkotlin.R
 
 class CreateActivity : AppCompatActivity() {

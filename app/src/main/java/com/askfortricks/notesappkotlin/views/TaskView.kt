@@ -18,19 +18,20 @@ class TaskView @JvmOverloads constructor(
 
     lateinit var task: Task
 
-    fun initView(task: Task) {
-        this.task=task
-        titleView.text=task.title
-        task.todos.forEach { todo ->
+    fun initView(task: Task, todoCheckedCallback: (Int, Boolean) -> Unit) {
+        this.task = task
+        titleView.text = task.title
+        task.todos.forEachIndexed { todoIndex, todo ->
             val todoView = (LayoutInflater.from(context).inflate(
                 R.layout.view_todo,
                 todoContainer,
                 false
             ) as TodoView).apply {
-                initView(todo) {
-                    if(isTaskComplete()){
+                initView(todo) { isChecked ->
+                    todoCheckedCallback.invoke(todoIndex, isChecked)
+                    if (isTaskComplete()) {
                         createStrikeThrough()
-                    } else{
+                    } else {
                         removeStrikeThrough()
                     }
                 }
@@ -41,7 +42,7 @@ class TaskView @JvmOverloads constructor(
         }
     }
 
-    private fun isTaskComplete(): Boolean= task.todos.none { todo ->
+    private fun isTaskComplete(): Boolean = task.todos.none { todo ->
         !todo.isComplete
     }
 
@@ -54,7 +55,7 @@ class TaskView @JvmOverloads constructor(
 
     private fun removeStrikeThrough() {
         titleView.apply {
-            paintFlags=  paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+            paintFlags = paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
         }
     }
 

@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.view_add_button.view.*
 class NotesAdapter(
     notesList: MutableList<Note> = mutableListOf(),
     val touchActionDelegate: NotesListFragment.TouchActionDelegate
+
 ) :
     BaseRecyclerAdapter<Note>(notesList) {
 
@@ -39,13 +40,13 @@ class NotesAdapter(
 
 
     class ViewHolder(view: View) : BaseViewHolder<Note>(view) {
-        override fun onBind(data: Note, position: Int) {
+        override fun onBind(data: Note, listIndex: Int) {
             (view as NoteView).initView(data)
         }
     }
 
     inner class AddButtonViewHolder(view: View) : BaseRecyclerAdapter.AddButtonViewHolder(view) {
-        override fun onBind(data: Unit, position: Int) {
+        override fun onBind(data: Unit, listIndex: Int) {
             view.buttonText.text = view.context.getString(R.string.add_button_task)
             view.buttonText.setOnClickListener {
                 touchActionDelegate.onAddButtonClicked(NavigationActivity.FRAG_VALUE_NOTES)

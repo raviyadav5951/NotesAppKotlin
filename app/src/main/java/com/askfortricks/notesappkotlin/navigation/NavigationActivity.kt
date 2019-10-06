@@ -55,9 +55,9 @@ class NavigationActivity : AppCompatActivity(), TaskListFragment.TouchActionDele
     }
 
 
-    private fun gotoCreateActivity(fragValue:String) {
+    private fun gotoCreateActivity(fragValue: String) {
         startActivity(Intent(this, CreateActivity::class.java).apply {
-            putExtra(FRAG_TYPE_KEY,fragValue)
+            putExtra(FRAG_TYPE_KEY, fragValue)
         })
     }
 }
