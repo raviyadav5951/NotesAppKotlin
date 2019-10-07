@@ -1,8 +1,9 @@
 package com.askfortricks.notesappkotlin.notes
 
 import com.askfortricks.notesappkotlin.models.Note
+import javax.inject.Inject
 
-class NoteModel {
+class NoteModel @Inject constructor(){
 
     fun getFakeData(): MutableList<Note> =
         mutableListOf(

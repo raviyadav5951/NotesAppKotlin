@@ -2,8 +2,9 @@ package com.askfortricks.notesappkotlin.tasks
 
 import com.askfortricks.notesappkotlin.models.Task
 import com.askfortricks.notesappkotlin.models.Todo
+import javax.inject.Inject
 
-class TaskModel {
+class TaskModel @Inject constructor(){
 
     fun getFakeData(): MutableList<Task> = mutableListOf(
         Task(

@@ -4,10 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.askfortricks.notesappkotlin.models.Task
+import toothpick.Toothpick
+import javax.inject.Inject
 
 class TaskViewModel : ViewModel(), TaskListViewContract {
 
-    private val model: TaskModel = TaskModel()
+    //changed after toothpick
+    //private val model: TaskModel = TaskModel()
+    //this will include TaskModel as dependency without new or constructor
+    @Inject
+    lateinit var model:TaskModel
     //step 1
     private val _taskListLiveData: MutableLiveData<MutableList<Task>> = MutableLiveData()
 
@@ -17,6 +23,10 @@ class TaskViewModel : ViewModel(), TaskListViewContract {
 
     //Step2 :init will be callled just after the constreuctor
     init {
+        //First open the scope.
+        val scope=Toothpick.openScope(this)//we can use any name
+        Toothpick.inject(this,scope)
+
         //post value async performs operation
         _taskListLiveData.postValue(model.getFakeData())
     }
