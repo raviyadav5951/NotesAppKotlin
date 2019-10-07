@@ -1,6 +1,7 @@
 package com.askfortricks.notesappkotlin.foundations
 
 import android.view.View
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
 abstract class BaseRecyclerAdapter<T : Any>(
@@ -13,9 +14,11 @@ abstract class BaseRecyclerAdapter<T : Any>(
     }
 
     fun updateList(list: List<T>) {
+        val result=DiffUtil.calculateDiff(DiffUtilCallbackImpl(masterList,list))
         masterList.clear()
         masterList.addAll(list)
-        notifyDataSetChanged()
+        result.dispatchUpdatesTo(this)
+//        notifyDataSetChanged()
     }
 
     override fun getItemCount() = masterList.size + 1
@@ -40,4 +43,18 @@ abstract class BaseRecyclerAdapter<T : Any>(
     }
 
     abstract class AddButtonViewHolder(view: View) : BaseViewHolder<Unit>(view)
+
+    class DiffUtilCallbackImpl<T>(val oldList:List<T>, val newList:List<T>): DiffUtil.Callback() {
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+            oldList[oldItemPosition]==newList[newItemPosition]
+
+        override fun getOldListSize(): Int =oldList.size
+
+        override fun getNewListSize(): Int =newList.size
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+            oldList[oldItemPosition]==newList[newItemPosition]
+
+    }
 }

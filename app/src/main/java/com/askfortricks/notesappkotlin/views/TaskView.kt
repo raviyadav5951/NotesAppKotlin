@@ -1,7 +1,6 @@
 package com.askfortricks.notesappkotlin.views
 
 import android.content.Context
-import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -16,7 +15,7 @@ class TaskView @JvmOverloads constructor(
 ) :
     ConstraintLayout(context, attrs, defStyleAttr) {
 
-    lateinit var task: Task
+    private lateinit var task: Task
 
     fun initView(task: Task, todoCheckedCallback: (Int, Boolean) -> Unit) {
         this.task = task
@@ -30,9 +29,11 @@ class TaskView @JvmOverloads constructor(
                 initView(todo) { isChecked ->
                     todoCheckedCallback.invoke(todoIndex, isChecked)
                     if (isTaskComplete()) {
-                        createStrikeThrough()
+                        //differentiate between current this (TodoView )and this (TASK view)
+                        //our titleview is inside taskview
+                        this@TaskView.titleView.setStrikeThrough()
                     } else {
-                        removeStrikeThrough()
+                        this@TaskView.titleView.removeStrikeThrough()
                     }
                 }
             }
@@ -47,17 +48,6 @@ class TaskView @JvmOverloads constructor(
     }
 
 
-    private fun createStrikeThrough() {
-        titleView.apply {
-            paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-        }
-    }
-
-    private fun removeStrikeThrough() {
-        titleView.apply {
-            paintFlags = paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-        }
-    }
 
 
 }
