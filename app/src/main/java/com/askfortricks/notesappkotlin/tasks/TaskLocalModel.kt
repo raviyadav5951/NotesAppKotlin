@@ -4,9 +4,8 @@ import com.askfortricks.notesappkotlin.models.Task
 import com.askfortricks.notesappkotlin.models.Todo
 import javax.inject.Inject
 
-class TaskModel @Inject constructor(){
-
-    fun getFakeData(): MutableList<Task> = mutableListOf(
+class TaskLocalModel @Inject constructor(): ITaskModel{
+    override fun getFakeData(): MutableList<Task> = mutableListOf(
         Task(
             "Test one", mutableListOf(
                 Todo("testing One"),
@@ -28,4 +27,17 @@ class TaskModel @Inject constructor(){
             )
         )
     )
+
+    override fun addTask(Task: Task, callback: successCallback) {
+    }
+
+    override fun updateTask(Task: Task, callback: successCallback) {
+    }
+
+    override fun deleteTask(Task: Task, callback: successCallback) {
+    }
+
+    override fun retrieveTasks(): List<Task> = mutableListOf()
+
+
 }

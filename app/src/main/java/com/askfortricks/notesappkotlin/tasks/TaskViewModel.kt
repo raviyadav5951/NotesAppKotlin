@@ -3,17 +3,19 @@ package com.askfortricks.notesappkotlin.tasks
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.askfortricks.notesappkotlin.foundations.ApplicationScope
 import com.askfortricks.notesappkotlin.models.Task
 import toothpick.Toothpick
+import toothpick.config.Module
 import javax.inject.Inject
 
 class TaskViewModel : ViewModel(), TaskListViewContract {
 
     //changed after toothpick
-    //private val model: TaskModel = TaskModel()
-    //this will include TaskModel as dependency without new or constructor
+    //private val localModel: TaskLocalModel = TaskLocalModel()
+    //this will include TaskLocalModel as dependency without new or constructor
     @Inject
-    lateinit var model:TaskModel
+    lateinit var localModel: ITaskModel
     //step 1
     private val _taskListLiveData: MutableLiveData<MutableList<Task>> = MutableLiveData()
 
@@ -23,12 +25,22 @@ class TaskViewModel : ViewModel(), TaskListViewContract {
 
     //Step2 :init will be callled just after the constreuctor
     init {
+
+        //before moving to singleton ApplicationScope
         //First open the scope.
-        val scope=Toothpick.openScope(this)//we can use any name
-        Toothpick.inject(this,scope)
+//        val scope = Toothpick.openScope(this)//we can use any name
+//        scope.installModules(Module().apply {
+//            bind(ITaskModel::class.java).toInstance(TaskLocalModel())
+//        }
+//        )
+//        Toothpick.inject(this, scope)
+
+        //we made ApplicationScope as singleton and added all module and bindings there
+
+        Toothpick.inject(this,ApplicationScope.scope)
 
         //post value async performs operation
-        _taskListLiveData.postValue(model.getFakeData())
+        _taskListLiveData.postValue(localModel.getFakeData())
     }
 
 
